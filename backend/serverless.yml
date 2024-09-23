@@ -1,0 +1,73 @@
+service: individuell-examination-shui
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: eu-north-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Scan
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:GetItem
+        - dynamodb:Query
+      Resource:
+        - arn:aws:dynamodb:eu-north-1:476114153048:table/messages-table
+        - arn:aws:dynamodb:eu-north-1:476114153048:table/messages-table/index/username-index
+
+functions:
+  createMessage:
+    handler: functions/createMessage.handler
+    events:
+      - http:
+          path: messages
+          method: post
+
+  getAllMessages:
+    handler: functions/getAllMessages.handler
+    events:
+      - http:
+          path: messages
+          method: get
+
+  getMessagesByUsername:
+    handler: functions/getMessagesByUsername.handler
+    events:
+      - http:
+          path: messages/by-username
+          method: get
+          request:
+            parameters:
+              querystrings:
+                username: true
+
+  updateMessage:
+    handler: functions/updateMessage.handler
+    events:
+      - http:
+          path: messages/{id}
+          method: put
+
+resources:
+  Resources:
+    MessagesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: messages-table
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: username
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+        GlobalSecondaryIndexes:
+          - IndexName: username-index
+            KeySchema:
+              - AttributeName: username
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
