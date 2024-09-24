@@ -17,7 +17,19 @@ provider:
             - dynamodb:DeleteItem
           Resource: "*"  
   httpApi:
-    cors: true  
+    cors:
+      allowedOrigins:
+        - '*'  
+      allowedMethods:
+        - GET
+        - POST
+        - PUT
+      allowedHeaders:
+        - Content-Type
+        - X-Amz-Date
+        - Authorization
+        - X-Api-Key
+        - X-Amz-Security-Token
 
 functions:
   createMessage:
