@@ -13,11 +13,15 @@ module.exports.handler = async (event) => {
 
   try {
     const getResult = await db.send(new GetCommand(getParams));
-    
+
     // Kontrollera om meddelandet finns
     if (!getResult.Item) {
       return {
         statusCode: 404,
+        headers: {
+          'Access-Control-Allow-Origin': '',  
+          'Access-Control-Allow-Credentials': true
+        },
         body: JSON.stringify({ error: 'Message not found' }),
       };
     }
@@ -37,12 +41,20 @@ module.exports.handler = async (event) => {
     const updateResult = await db.send(new UpdateCommand(updateParams));
     return {
       statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '',  
+        'Access-Control-Allow-Credentials': true
+      },
       body: JSON.stringify({ message: 'Message updated', updatedValues: updateResult.Attributes }),
     };
   } catch (error) {
     console.error(error);
     return {
       statusCode: 500,
+      headers: {
+        'Access-Control-Allow-Origin': '*',  
+        'Access-Control-Allow-Credentials': true
+      },
       body: JSON.stringify({ error: 'Could not update message' }),
     };
   }
