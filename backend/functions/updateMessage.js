@@ -19,8 +19,9 @@ module.exports.handler = async (event) => {
       return {
         statusCode: 404,
         headers: {
-          'Access-Control-Allow-Origin': '',  
-          'Access-Control-Allow-Credentials': true
+          'Access-Control-Allow-Origin': 'http://localhost:5174',  // Ange rätt domän
+          'Access-Control-Allow-Credentials': true,
+          'Content-Type': 'application/json', // Lägg till Content-Type
         },
         body: JSON.stringify({ error: 'Message not found' }),
       };
@@ -42,8 +43,9 @@ module.exports.handler = async (event) => {
     return {
       statusCode: 200,
       headers: {
-        'Access-Control-Allow-Origin': '',  
-        'Access-Control-Allow-Credentials': true
+        'Access-Control-Allow-Origin': 'http://localhost:5174',  // Ange rätt domän
+        'Access-Control-Allow-Credentials': true,
+        'Content-Type': 'application/json', // Lägg till Content-Type
       },
       body: JSON.stringify({ message: 'Message updated', updatedValues: updateResult.Attributes }),
     };
@@ -52,8 +54,9 @@ module.exports.handler = async (event) => {
     return {
       statusCode: 500,
       headers: {
-        'Access-Control-Allow-Origin': '*',  
-        'Access-Control-Allow-Credentials': true
+        'Access-Control-Allow-Origin': 'http://localhost:5174',  // Ange rätt domän
+        'Access-Control-Allow-Credentials': true,
+        'Content-Type': 'application/json', // Lägg till Content-Type
       },
       body: JSON.stringify({ error: 'Could not update message' }),
     };
