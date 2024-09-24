@@ -17,15 +17,21 @@ module.exports.createMessage = async (event) => {
     await db.send(new PutCommand(params));
     return {
       statusCode: 201,
+      headers: {
+        'Access-Control-Allow-Origin': '*',  
+        'Access-Control-Allow-Credentials': true
+      },
       body: JSON.stringify({ message: 'Message created' }),
     };
   } catch (error) {
     console.error(error);
     return {
       statusCode: 500,
+      headers: {
+        'Access-Control-Allow-Origin': '*',  
+        'Access-Control-Allow-Credentials': true
+      },
       body: JSON.stringify({ error: 'Could not create message' }),
     };
   }
 };
-
-// Lägg till andra funktioner för getAllMessages och updateMessage här...
