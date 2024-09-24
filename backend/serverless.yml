@@ -2,19 +2,22 @@ service: individuell-examination-shui
 
 provider:
   name: aws
-  runtime: nodejs18.x
+  runtime: nodejs18.x  
   region: eu-north-1
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - dynamodb:Scan
-        - dynamodb:PutItem
-        - dynamodb:UpdateItem
-        - dynamodb:GetItem
-        - dynamodb:Query
-      Resource:
-        - arn:aws:dynamodb:eu-north-1:476114153048:table/messages-table
-        - arn:aws:dynamodb:eu-north-1:476114153048:table/messages-table/index/username-index
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: "*"  
+  httpApi:
+    cors: true  
 
 functions:
   createMessage:
@@ -23,7 +26,6 @@ functions:
       - http:
           path: messages
           method: post
-          cors: true
 
   getAllMessages:
     handler: functions/getAllMessages.handler
@@ -31,7 +33,6 @@ functions:
       - http:
           path: messages
           method: get
-          cors: true
 
   getMessagesByUsername:
     handler: functions/getMessagesByUsername.handler
@@ -43,7 +44,6 @@ functions:
             parameters:
               querystrings:
                 username: true
-          cors: true
 
   updateMessage:
     handler: functions/updateMessage.handler
@@ -51,7 +51,6 @@ functions:
       - http:
           path: messages/{id}
           method: put
-          cors: true
 
 resources:
   Resources:
