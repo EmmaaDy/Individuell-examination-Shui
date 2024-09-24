@@ -23,6 +23,7 @@ functions:
       - http:
           path: messages
           method: post
+          cors: true
 
   getAllMessages:
     handler: functions/getAllMessages.handler
@@ -30,6 +31,7 @@ functions:
       - http:
           path: messages
           method: get
+          cors: true
 
   getMessagesByUsername:
     handler: functions/getMessagesByUsername.handler
@@ -41,6 +43,7 @@ functions:
             parameters:
               querystrings:
                 username: true
+          cors: true
 
   updateMessage:
     handler: functions/updateMessage.handler
@@ -48,6 +51,7 @@ functions:
       - http:
           path: messages/{id}
           method: put
+          cors: true
 
 resources:
   Resources:
