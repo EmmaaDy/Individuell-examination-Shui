@@ -36,7 +36,8 @@ module.exports.handler = async (event) => {
                     'Access-Control-Allow-Origin': '*',
                     'Access-Control-Allow-Credentials': true,
                 },
-                body: JSON.stringify({ message: `No messages found for user: ${username}` }),
+                // Korrekt interpolering av användarnamn
+                body: JSON.stringify({ message: `No messages found for user: ${username}` }), 
             };
         }
 
