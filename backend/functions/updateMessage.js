@@ -19,7 +19,7 @@ module.exports.handler = async (event) => {
       return {
         statusCode: 404,
         headers: {
-          'Access-Control-Allow-Origin': 'http://localhost:5174',  // Ange rätt domän
+          'Access-Control-Allow-Origin': 'http://min-anlagstavla-shui.s3-website.eu-north-1.amazonaws.com', 
           'Access-Control-Allow-Credentials': true,
           'Content-Type': 'application/json', // Lägg till Content-Type
         },
@@ -43,7 +43,7 @@ module.exports.handler = async (event) => {
     return {
       statusCode: 200,
       headers: {
-        'Access-Control-Allow-Origin': 'http://localhost:5174',  // Ange rätt domän
+        'Access-Control-Allow-Origin': 'http://min-anlagstavla-shui.s3-website.eu-north-1.amazonaws.com', 
         'Access-Control-Allow-Credentials': true,
         'Content-Type': 'application/json', // Lägg till Content-Type
       },
@@ -54,7 +54,7 @@ module.exports.handler = async (event) => {
     return {
       statusCode: 500,
       headers: {
-        'Access-Control-Allow-Origin': 'http://localhost:5174',  // Ange rätt domän
+        'Access-Control-Allow-Origin': 'http://min-anlagstavla-shui.s3-website.eu-north-1.amazonaws.com', 
         'Access-Control-Allow-Credentials': true,
         'Content-Type': 'application/json', // Lägg till Content-Type
       },
