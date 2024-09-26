@@ -1,7 +1,7 @@
 // api.js
 
 // Bas-URL för API:et
-const BASE_URL = '/api/dev';
+const BASE_URL = 'https://8ml8eg55tl.execute-api.eu-north-1.amazonaws.com/dev';
 
 // Middleware: apiFetch för att hantera fetch-anrop
 const apiFetch = async (url, options = {}) => {
