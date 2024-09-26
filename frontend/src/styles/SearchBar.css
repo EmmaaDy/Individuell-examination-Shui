@@ -1,0 +1,85 @@
+/* styles/SearchBar.css */
+
+/* Sökfält */
+.search-container {
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    margin: 30px 0; 
+}
+
+/* Ny klass för att gruppera input och knappen horisontellt */
+.search-input-container {
+    display: flex; 
+    align-items: center; 
+    position: relative; /* För att kunna positionera ikonen absolut inom containern */
+}
+
+.fa-search {
+    color: #ffffff;
+    position: absolute; /* Positionera ikonen absolut */
+    left: 10px; /* Justera avståndet från vänster */
+    top: 50%; /* Centrera vertikalt */
+    transform: translateY(-50%); /* Justera för att centrera korrekt */
+}
+
+.fa-search:hover {
+    color: #275a7c; 
+}
+
+.search-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px; 
+    margin-right: 5px; 
+}
+
+.home-search-input {
+    padding: 10px 10px 10px 40px; /* Justera inre marginal för att ge plats till ikonen */
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+    width: 300px; /* Justera bredden efter behov */
+}
+
+.home-search-button {
+    margin-left: 5px; 
+    padding: 10px 15px; 
+    background-color: #ffffff; 
+    color: rgb(0, 0, 0); 
+    border: none; 
+    border-radius: 4px; 
+    cursor: pointer; 
+}
+
+.home-search-button:hover {
+    background-color: #275a7c; 
+}
+
+/* Felmeddelande */
+.search-error-message {
+    color: rgb(136, 13, 13); 
+    font-size: 0.9rem; 
+    margin-top: 6px; 
+}
+
+/* Media queries för mindre skärmar */
+@media (max-width: 375px) {
+    .home-search-input {
+        width: 80%; /* Minska bredden på inputfältet */
+    }
+
+    .search-button {
+        font-size: 18px; 
+        margin-left: 30px; /* Minska marginalen */
+    }
+
+    .home-search-button {
+        padding: 8px 12px; 
+        font-size: 0.9rem; 
+    }
+
+    .search-error-message {
+        font-size: 0.8rem; 
+    }
+}

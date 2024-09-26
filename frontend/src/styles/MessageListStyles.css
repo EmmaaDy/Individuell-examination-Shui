@@ -1,0 +1,84 @@
+/* Grundläggande stil för meddelandelistan */
+.message-list {
+    list-style-type: none; 
+    padding: 0; 
+    margin: 0; 
+}
+
+/* Stil för varje meddelande i listan */
+.home-message-item {
+    background-color: #ffffff; 
+    border: 2px solid #000000; 
+    border-radius: 8px; 
+    padding: 15px; 
+    margin: 10px 0; 
+    position: relative; 
+    text-align: left; 
+}
+
+/* Stil för meddelandets innehåll */
+.message-content {
+    display: flex;
+    flex-direction: column; 
+    flex-grow: 1; 
+    text-align: left; 
+}
+
+/* Stil för tidsstämpeln */
+.home-timestamp {
+    align-self: flex-start; 
+    color: #505458; 
+    font-size: 0.6rem; 
+    margin-bottom: 10px; 
+}
+
+/* Stil för meddelandetext */
+.home-message-text {
+    color: rgb(0, 0, 0); 
+    margin-bottom: 10px; 
+    word-wrap: break-word; 
+    text-align: left; 
+    font-size: 0.9rem; 
+}
+
+/* Stil för användarnamn */
+.home-username {
+    font-weight: bold; 
+    color: #000000; 
+    font-size: 0.9rem; 
+    align-self: flex-start; 
+    text-align: left; 
+}
+
+/* Stil för redigeringsknappen */
+.home-edit-button {
+    background: none; 
+    border: none; 
+    cursor: pointer; 
+    color: #000000; 
+    font-size: 1.3rem; 
+    position: absolute; 
+    bottom: 10px; 
+    right: 20px; 
+}
+
+/* Hover-effekt för redigeringsknappen */
+.home-edit-button:hover {
+    color: #275a7c; 
+}
+
+/* Stil för laddning av meddelanden */
+.message-list-loading {
+    text-align: center; 
+    color: #94a3b8; 
+    padding: 20px; 
+    font-size: 1.1rem; 
+}
+
+/* Stil för tom lista (inga meddelanden att visa) */
+.message-list .home-message-item {
+    text-align: center; 
+    color: #94a3b8; 
+    padding: 20px; 
+    font-size: 1.1rem; 
+}

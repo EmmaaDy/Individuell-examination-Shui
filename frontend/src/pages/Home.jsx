@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { getMessages, editMessage, getMessagesByUser } from '../api';
+import MessageForm from '../components/MessageForm';
+import MessageList from '../components/MessageList';
+import SearchBar from '../components/SearchBar';
+import EditMessage from '../pages/EditMessage'; 
+import '../styles/HomeStyles.css';
 
 const Home = () => {
     const [messages, setMessages] = useState([]);
@@ -8,24 +13,37 @@ const Home = () => {
     const [editMode, setEditMode] = useState(false);
     const [currentMessageId, setCurrentMessageId] = useState(null);
     const [newText, setNewText] = useState('');
-    const [searchUsername, setSearchUsername] = useState(''); // För sökning
+    const [searchUsername, setSearchUsername] = useState('');
+    const [isSearching, setIsSearching] = useState(false);
+    const [searchError, setSearchError] = useState('');
 
     const fetchMessages = async (username = '') => {
         setLoading(true);
+        setError(null);
+        setSearchError('');
+
         try {
             const data = username ? await getMessagesByUser(username) : await getMessages();
             console.log('Fetched messages:', data);
-            
-            // Filtrera och sortera meddelanden så att matchande användarnamn kommer först
-            const sortedMessages = data.sort((a, b) => {
-                if (a.username === username) return -1; // Flytta matchande användarnamn först
-                if (b.username === username) return 1; // Flytta andra matchande användarnamn efter
-                return 0; // Behåll övriga i nuvarande ordning
-            });
 
-            setMessages(sortedMessages);
+            if (username) {
+                if (Array.isArray(data) && data.length > 0) {
+                    const sortedMessages = data.sort((a, b) => {
+                        if (a.username === username) return -1;
+                        if (b.username === username) return 1;
+                        return 0;
+                    });
+                    setMessages(sortedMessages);
+                } else {
+                    setSearchError(`Ingen användare med namnet "${username}" hittades.`);
+                    setMessages([]);
+                }
+            } else {
+                setMessages(data);
+            }
         } catch (error) {
             setError('Kunde inte hämta meddelanden. Försök igen senare.');
+            console.error('Fetch error:', error);
         } finally {
             setLoading(false);
         }
@@ -38,16 +56,13 @@ const Home = () => {
     };
 
     const handleUpdateMessage = async () => {
-        console.log('Updating message with ID:', currentMessageId);
-        console.log('New text:', newText);
         try {
             await editMessage(currentMessageId, { content: newText });
-            // Uppdatera meddelandet lokalt
-            setMessages(prevMessages => 
-                prevMessages.map(message => 
-                    message.id === currentMessageId 
-                    ? { ...message, text: newText, updatedAt: new Date().toISOString() } 
-                    : message
+            setMessages(prevMessages =>
+                prevMessages.map(message =>
+                    message.id === currentMessageId
+                        ? { ...message, text: newText, updatedAt: new Date().toISOString() }
+                        : message
                 )
             );
             setEditMode(false);
@@ -59,60 +74,67 @@ const Home = () => {
     };
 
     const handleSearch = () => {
-        fetchMessages(searchUsername); // Anropa fetchMessages med det angivna användarnamnet
-        setSearchUsername(''); // Nollställ söktexten efter sökningen
+        if (!searchUsername.trim()) {
+            setSearchError('Du måste fylla i ett användarnamn.');
+            return;
+        }
+
+        setSearchError('');
+        fetchMessages(searchUsername.trim());
+        setSearchUsername('');
+        setIsSearching(false);
     };
 
     useEffect(() => {
-        fetchMessages(); // Anropar bara en gång när komponenten monteras
+        fetchMessages();
     }, []);
 
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const options = { day: 'numeric', month: 'long' };
+        return `den ${date.toLocaleDateString('sv-SE', options)}`;
+    };
+
+    const formatTime = (dateString) => {
+        const date = new Date(dateString);
+        const options = { hour: '2-digit', minute: '2-digit', hour12: false };
+        return date.toLocaleTimeString('sv-SE', options).replace(':', ':');
+    };
+
     if (loading) {
-        return <div>Laddar meddelanden...</div>;
+        return <div className="loading">Laddar meddelanden...</div>;
     }
-
-    if (error) {
-        return (
-            <div>
-                <p>Error: {error}</p>
-                <button onClick={fetchMessages}>Försök igen</button>
-            </div>
-        );
-    }
-
+    
     return (
-        <div>
-            <h1>Messages</h1>
-            <input
-                type="text"
-                value={searchUsername}
-                onChange={(e) => setSearchUsername(e.target.value)}
-                placeholder="Sök efter användarnamn"
-            />
-            <button onClick={handleSearch}>Sök</button>
+        <div className="home-container">
+            <h1 className="home-header">Meddelandeportal</h1>
+            {/* Rendera MessageForm endast när editMode är false */}
+            {!editMode && (
+                <MessageForm onMessagePosted={fetchMessages} />
+            )}
+            {/* Rendera SearchBar endast när editMode är false */}
+            {!editMode && (
+                <SearchBar
+                    searchUsername={searchUsername}
+                    setSearchUsername={setSearchUsername}
+                    isSearching={isSearching}
+                    setIsSearching={setIsSearching}
+                    handleSearch={handleSearch}
+                    searchError={searchError}
+                />
+            )}
             {editMode ? (
-                <div>
-                    <input
-                        type="text"
-                        value={newText}
-                        onChange={(e) => setNewText(e.target.value)}
-                    />
-                    <button onClick={handleUpdateMessage}>Uppdatera meddelande</button>
-                    <button onClick={() => setEditMode(false)}>Avbryt</button>
-                </div>
+                <EditMessage 
+                    username={searchUsername} 
+                    selectedMessage={{ id: currentMessageId, content: newText }} 
+                />
             ) : (
-                <ul>
-                    {messages.map(message => (
-                        <li key={message.id} className="message-item">
-                            <strong>{message.username}:</strong> {message.text} <br />
-                            <small className="timestamp">
-                                {new Date(message.createdAt).toLocaleString()}
-                                {message.updatedAt ? ` (Uppdaterad ${new Date(message.updatedAt).toLocaleString()})` : ''}
-                            </small>
-                            <button onClick={() => handleEditClick(message)}>Redigera</button>
-                        </li>
-                    ))}
-                </ul>
+                <MessageList
+                    messages={messages}
+                    formatDate={formatDate}
+                    formatTime={formatTime}
+                    onEdit={handleEditClick}
+                />
             )}
         </div>
     );

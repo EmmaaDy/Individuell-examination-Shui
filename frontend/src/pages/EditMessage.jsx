@@ -1,33 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { getMessage, editMessage } from '../api'; // Justera importvägen vid behov
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { editMessage } from '../api';
+import '../styles/EditMessageStyles.css';
 
-const EditMessage = () => {
-    const { id } = useParams();
+const EditMessage = ({ selectedMessage }) => {
     const navigate = useNavigate();
-    const [message, setMessage] = useState({ content: '' });
+    const [messageContent, setMessageContent] = useState(selectedMessage.content || '');
     const [error, setError] = useState(null);
-
-    useEffect(() => {
-        const fetchMessage = async () => {
-            try {
-                const fetchedMessage = await getMessage(id);
-                setMessage(fetchedMessage);
-            } catch (err) {
-                console.error('Error fetching message:', err);
-                setError('Could not fetch the message.');
-            }
-        };
-
-        fetchMessage();
-    }, [id]);
+    const [successMessage, setSuccessMessage] = useState('');
 
     const handleEdit = async (e) => {
         e.preventDefault();
+
+        // Validera att meddelandet inte är tomt
+        if (!messageContent.trim()) {
+            setError('Meddelandet får inte vara tomt.'); // Sätt felmeddelande
+            return; // Avbryt om meddelandet är tomt
+        }
+
         try {
-            const updatedMessage = await editMessage(id, { content: message.content });
-            console.log('Message updated:', updatedMessage);
-            navigate('/'); // Navigera tillbaka efter redigeringen
+            await editMessage(selectedMessage.id, { content: messageContent });
+            setSuccessMessage('Meddelandet har uppdaterats framgångsrikt!');
+            setMessageContent('');
+            setError(null); // Återställ felmeddelande
+            setTimeout(() => {
+                navigate('/');
+            }, 2000);
         } catch (error) {
             console.error('Error updating message:', error);
             setError('Kunde inte uppdatera meddelandet. Försök igen senare.');
@@ -35,16 +33,22 @@ const EditMessage = () => {
     };
 
     return (
-        <div>
-            <h2>Edit Message</h2>
-            {error && <p className="error">{error}</p>}
+        <div className="edit-message-container">
+            <h2 className="edit-message-header">Redigera Meddelande</h2>
+            {successMessage && <p className="success">{successMessage}</p>}
             <form onSubmit={handleEdit}>
                 <textarea
-                    value={message.content}
-                    onChange={(e) => setMessage({ content: e.target.value })}
-                    required
+                    className="edit-message-textarea"
+                    value={messageContent}
+                    onChange={(e) => {
+                        setMessageContent(e.target.value);
+                        setError(null); // Återställ felmeddelande när användaren börjar skriva
+                    }}
                 />
-                <button type="submit">Update Message</button>
+                {error && <p className="edit-error-message">{error}</p>} {/* Ny klass för felmeddelande */}
+                <div className="button-group">
+                    <button className="save-button" type="submit">Uppdatera Meddelande</button>
+                </div>
             </form>
         </div>
     );

@@ -1,0 +1,24 @@
+/* Reset-styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+  
+  /* Globala stilar */
+body, html {
+    height: 100%;
+    margin: 0;
+}
+  
+body {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    background-color: #1e293b;
+    color: rgba(255, 255, 255, 0.87);
+}
+  
+a {
+    color: inherit;
+    text-decoration: none;
+}
+  

@@ -1,0 +1,85 @@
+/* Grundläggande container-stil */
+.edit-message-container {
+  max-width: 600px;
+  margin: 50px auto;
+  background-color: #1e293b;
+  padding: 20px;
+  border: 2px solid rgba(0, 0, 0, 0.5);
+  border-radius: 10px; 
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);  
+}
+  
+/* Rubrik-stil */
+.edit-message-header {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #ffffff;
+  text-align: center;
+}
+  
+.user-name-input {
+  width: 100%; 
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+  /* Textarea-stil */
+  .edit-message-textarea {
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #64748b;
+    border-radius: 5px;
+    background-color: #0f172a;
+    color: white;
+    resize: none;
+    margin-bottom: 0px;
+  }
+  
+  .edit-message-textarea::placeholder {
+    color: #94a3b8;
+  }
+  
+  /* Error- och Success-meddelanden */
+  .edit-error-message {
+    color: rgb(136, 13, 13); 
+    font-size: 0.9rem; 
+    margin-top: 0px; 
+    margin-bottom: 20px;
+    text-align: center; /* Centrera texten om du vill */
+}
+  .success {
+    color: #4ade80;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  /* Knappens layout */
+  .button-group {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .save-button {
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .save-button:hover {
+    background-color: #275a7c;
+  }
+
+
+
+
+  

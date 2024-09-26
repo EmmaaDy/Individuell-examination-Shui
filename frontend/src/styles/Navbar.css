@@ -1,0 +1,36 @@
+nav {
+  background-color: #1e293b; 
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ 
+}
+  
+/* Lista för navigering */
+nav ul {
+  list-style-type: none; 
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+    
+/* Stilar för hemknappen */
+nav button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1.5rem; 
+  color: rgb(255, 255, 255); 
+  transition: color 0.3s ease; 
+}
+  
+nav button:hover {
+  color: #275a7c; 
+}
+  
+/* Ikonstil */
+nav i {
+  font-size: 1.5rem;
+}
+  

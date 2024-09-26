@@ -1,14 +1,22 @@
-// Navbar.jsx
-
 import React from 'react';
-import { Link } from 'react-router-dom';
+import 'font-awesome/css/font-awesome.min.css';
+import '../styles/Navbar.css';
+
 
 const Navbar = () => {
+    const handleHomeClick = () => {
+        // Uppdatera sidan
+        window.location.reload();
+    };
+
     return (
         <nav>
             <ul>
-                <li><Link to="/">Home</Link></li>
-                <li><Link to="/post-message">Post Message</Link></li>
+                <li>
+                    <button onClick={handleHomeClick} style={{ border: 'none', background: 'none', cursor: 'pointer' }}>
+                        <i className="fa fa-home"></i>
+                    </button>
+                </li>
             </ul>
         </nav>
     );

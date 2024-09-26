@@ -1,11 +1,14 @@
-// App.jsx
-
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import 'font-awesome/css/font-awesome.min.css';  
+
+import Navbar from './components/Navbar';  
 import Home from './pages/Home';
-import PostMessage from './pages/PostMessage';
 import EditMessage from './pages/EditMessage';
-import Navbar from './components/Navbar';
+
+import './styles/Navbar.css';  
+import './styles/global.css';
+import './styles/EditMessageStyles.css';
 
 const App = () => {
     return (
@@ -13,8 +16,8 @@ const App = () => {
             <Navbar />
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/post-message" element={<PostMessage />} />
-                <Route path="/edit-message/:id" element={<EditMessage />} />
+                {/* Uppdatera här för att inkludera messageId */}
+                <Route path="/edit-message/:username/:messageId" element={<EditMessage />} /> 
             </Routes>
         </Router>
     );
