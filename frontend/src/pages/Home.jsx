@@ -107,7 +107,7 @@ const Home = () => {
     
     return (
         <div className="home-container">
-            <h1 className="home-header">Meddelandeportal</h1>
+            <h1 className="home-header">Anslagstavla Shui</h1>
             {/* Rendera MessageForm endast när editMode är false */}
             {!editMode && (
                 <MessageForm onMessagePosted={fetchMessages} />
