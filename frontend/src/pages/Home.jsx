@@ -55,18 +55,19 @@ const Home = () => {
         setNewText(message.text || '');
     };
 
-    const handleUpdateMessage = async () => {
+    const handleUpdateMessage = async (updatedText) => {
         try {
-            await editMessage(currentMessageId, { content: newText });
+            await editMessage(currentMessageId, { content: updatedText });
             setMessages(prevMessages =>
                 prevMessages.map(message =>
                     message.id === currentMessageId
-                        ? { ...message, text: newText, updatedAt: new Date().toISOString() }
+                        ? { ...message, text: updatedText, updatedAt: new Date().toISOString() }
                         : message
                 )
             );
             setEditMode(false);
             setNewText('');
+            setCurrentMessageId(null); // Återställ ID
         } catch (error) {
             setError('Kunde inte uppdatera meddelandet. Försök igen senare.');
             console.error('Update error:', error);
@@ -108,11 +109,9 @@ const Home = () => {
     return (
         <div className="home-container">
             <h1 className="home-header">Anslagstavla Shui</h1>
-            {/* Rendera MessageForm endast när editMode är false */}
             {!editMode && (
                 <MessageForm onMessagePosted={fetchMessages} />
             )}
-            {/* Rendera SearchBar endast när editMode är false */}
             {!editMode && (
                 <SearchBar
                     searchUsername={searchUsername}
@@ -125,8 +124,8 @@ const Home = () => {
             )}
             {editMode ? (
                 <EditMessage 
-                    username={searchUsername} 
                     selectedMessage={{ id: currentMessageId, content: newText }} 
+                    onUpdate={handleUpdateMessage} // Skicka med funktionen som uppdaterar meddelandet
                 />
             ) : (
                 <MessageList

@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { editMessage } from '../api';
 import '../styles/EditMessageStyles.css';
 
-const EditMessage = ({ selectedMessage }) => {
+const EditMessage = ({ selectedMessage, onUpdate }) => {
     const navigate = useNavigate();
-    const [messageContent, setMessageContent] = useState(selectedMessage.content || '');
+    const [messageContent, setMessageContent] = useState('');
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
+
+    useEffect(() => {
+        if (selectedMessage) {
+            setMessageContent(selectedMessage.content || '');
+        }
+    }, [selectedMessage]);
 
     const handleEdit = async (e) => {
         e.preventDefault();
@@ -18,18 +23,12 @@ const EditMessage = ({ selectedMessage }) => {
             return; // Avbryt om meddelandet är tomt
         }
 
-        try {
-            await editMessage(selectedMessage.id, { content: messageContent });
-            setSuccessMessage('Meddelandet har uppdaterats framgångsrikt!');
-            setMessageContent('');
-            setError(null); // Återställ felmeddelande
-            setTimeout(() => {
-                navigate('/');
-            }, 2000);
-        } catch (error) {
-            console.error('Error updating message:', error);
-            setError('Kunde inte uppdatera meddelandet. Försök igen senare.');
-        }
+        // Använd onUpdate-funktionen för att uppdatera meddelandet
+        await onUpdate(messageContent);
+        setSuccessMessage('Meddelandet har uppdaterats framgångsrikt!');
+        setTimeout(() => {
+            navigate('/'); // Navigera tillbaka till hemmet efter uppdatering
+        }, 2000);
     };
 
     return (
@@ -45,7 +44,7 @@ const EditMessage = ({ selectedMessage }) => {
                         setError(null); // Återställ felmeddelande när användaren börjar skriva
                     }}
                 />
-                {error && <p className="edit-error-message">{error}</p>} {/* Ny klass för felmeddelande */}
+                {error && <p className="edit-error-message">{error}</p>}
                 <div className="button-group">
                     <button className="save-button" type="submit">Uppdatera Meddelande</button>
                 </div>
