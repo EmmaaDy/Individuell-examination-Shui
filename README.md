@@ -9,9 +9,6 @@ Detta projekt är en enkel anslagstavla där användare kan:
 
 Projektet består av en frontend byggd i React med Vite och en serverless backend via AWS Lambda, API Gateway och DynamoDB.
 
-## 🌐 Länk till Webbapplikationen
-Anslagstavlan kan nås här: [Anslagstavla Shui](http://min-anlagstavla-shui.s3-website.eu-north-1.amazonaws.com/)
-
 ## 🛠️ Teknologier som används
 - **Frontend**: React med Vite, hostad på AWS S3.
 - **Backend**: AWS Lambda, API Gateway, DynamoDB.
