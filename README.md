@@ -35,8 +35,6 @@ serverless deploy
 
 ➡️ **Använd den unika endpoint-URL som returneras efter deploy för att göra API-anrop.**
 
-➡️ **Öppna din webbläsare och navigera till http://min-anlagstavla-shui.s3-website.eu-north-1.amazonaws.com/ för att använda applikationen.**
-
 ## 📚 API Endpoints
 
 ### 1. GET /messages
